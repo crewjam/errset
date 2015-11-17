@@ -17,13 +17,18 @@ func (testSuite *ErrSetTest) TestBasics(c *C) {
 	c.Assert(es.ReturnValue(), IsNil)
 	c.Assert(es.Error(), Equals, "")
 
+	es = append(es, nil)
+	c.Assert(es.ReturnValue(), IsNil)
+	c.Assert(es.Error(), Equals, "")
+
 	es = append(es, fmt.Errorf("foo"))
 	c.Assert(es.ReturnValue(), Not(IsNil))
-	c.Assert(es.ReturnValue(), DeepEquals, es)
+	c.Assert(es.Error(), Equals, "foo")
+
+	es = append(es, nil)
 	c.Assert(es.Error(), Equals, "foo")
 
 	es = append(es, fmt.Errorf("bar"))
 	c.Assert(es.ReturnValue(), Not(IsNil))
-	c.Assert(es.ReturnValue(), DeepEquals, es)
 	c.Assert(es.Error(), Equals, "foo; bar")
 }
