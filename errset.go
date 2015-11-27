@@ -14,8 +14,8 @@ package errset
 //
 type ErrSet []error
 
-// ReturnValue returns the ErrSet object if at least one error is present or
-// nil if there are no errors
+// ReturnValue returns the ErrSet object if at least one non-nill error is
+// present or nil if there are no errors
 func (es ErrSet) ReturnValue() error {
 	rv := ErrSet{}
 	for _, err := range es {
@@ -29,6 +29,8 @@ func (es ErrSet) ReturnValue() error {
 	return rv
 }
 
+// Error implements the error interface. It returns each error in the list
+// concatenated together with "; ".
 func (es ErrSet) Error() string {
 	rv := ""
 	errCount := 0
